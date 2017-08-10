@@ -12,46 +12,46 @@ use std::sync::Arc;
 /// A version of
 /// [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
 /// implemented on top of
-/// [`std::sync::Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
+/// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
 /// instead of
-/// [`std::boxed::Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html),
+/// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html),
 /// making it cloneable.
 ///
 /// The API of this type has been designed to match
-/// [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html), with
+/// [`io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html), with
 /// two exceptions:
 ///
-/// - [`IoError::new`](struct.IoError.html#method.new)
-///   takes [`std::sync::Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
-///   instead of
-///   [`std::boxed::Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
+/// - [`IoError::new`](struct.IoError.html#method.new) and
+///   [`IoError::into_inner`](struct.IoError.html#method.into_inner) substitute
+///   [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) for
+///   [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html), and
 /// - [`IoError`](struct.IoError.html) has no equivalent to
-///   [`std::io::Error::get_mut`](https://doc.rust-lang.org/std/io/struct.Error.html#method.get_mut),
+///   [`io::Error::get_mut`](https://doc.rust-lang.org/std/io/struct.Error.html#method.get_mut),
 ///   as the inner error instance is shared.
 ///
 /// See the standard library documentation for more detailed API-level
 /// descriptions than are given here.
 ///
 /// [`IoError`](struct.IoError.html) implements
-/// [`std::convert::From`](https://doc.rust-lang.org/std/convert/trait.From.html)
-/// for [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
+/// [`From`](https://doc.rust-lang.org/std/convert/trait.From.html)
+/// for [`io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
 /// and vice-versa, so the two types can easily be converted between each other.
 /// A type containing
-/// [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html) can
+/// [`io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html) can
 /// be made
-/// [`std::clone::Clone`](https://doc.rust-lang.org/std/clone/trait.Clone.html)-compatible
+/// [`Clone`](https://doc.rust-lang.org/std/clone/trait.Clone.html)-compatible
 /// by instead storing [`IoError`](struct.IoError.html) internally and
 /// converting from/to
-/// [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html) on
+/// [`io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html) on
 /// API boundaries.
 ///
 /// Clones derived from the same original [`IoError`](struct.IoError.html)
 /// instance will share a single heap-allocated error instance (if one is
 /// present) using
-/// [`std::sync::Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html).
-/// [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
+/// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html).
+/// [`io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
 /// instances produced by converting those clones back with the
-/// [`std::convert::From`](https://doc.rust-lang.org/std/convert/trait.From.html)
+/// [`From`](https://doc.rust-lang.org/std/convert/trait.From.html)
 /// implementation will also share the same single error instance.
 #[derive(Clone)]
 pub struct IoError(IoErrorRepr);
@@ -71,11 +71,11 @@ enum IoErrorRepr {
 
 impl IoError {
     /// See
-    /// [`std::io::Error::new`](https://doc.rust-lang.org/std/io/struct.Error.html#method.new),
+    /// [`io::Error::new`](https://doc.rust-lang.org/std/io/struct.Error.html#method.new),
     /// with
-    /// [`std::sync::Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
+    /// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
     /// substitued for
-    /// [`std::boxed::Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
+    /// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
     pub fn new<E>(kind: IoErrorKind, error: E) -> Self
         where E: Into<Arc<Error + Send + Sync>>
     {
@@ -83,19 +83,19 @@ impl IoError {
     }
 
     /// See
-    /// [`std::io::Error::last_os_error`](https://doc.rust-lang.org/std/io/struct.Error.html#method.last_os_error).
+    /// [`io::Error::last_os_error`](https://doc.rust-lang.org/std/io/struct.Error.html#method.last_os_error).
     pub fn last_os_error() -> Self {
         io::Error::last_os_error().into()
     }
 
     /// See
-    /// [`std::io::Error::from_raw_os_error`](https://doc.rust-lang.org/std/io/struct.Error.html#method.from_raw_os_error).
+    /// [`io::Error::from_raw_os_error`](https://doc.rust-lang.org/std/io/struct.Error.html#method.from_raw_os_error).
     pub fn from_raw_os_error(code: i32) -> Self {
         IoError(IoErrorRepr::Os(code))
     }
 
     /// See
-    /// [`std::io::Error::raw_os_error`](https://doc.rust-lang.org/std/io/struct.Error.html#method.raw_os_error).
+    /// [`io::Error::raw_os_error`](https://doc.rust-lang.org/std/io/struct.Error.html#method.raw_os_error).
     pub fn raw_os_error(&self) -> Option<i32> {
         match self.0 {
             IoErrorRepr::Os(code) => Some(code),
@@ -104,7 +104,7 @@ impl IoError {
     }
 
     /// See
-    /// [`std::io::Error::get_ref`](https://doc.rust-lang.org/std/io/struct.Error.html#method.get_ref).
+    /// [`io::Error::get_ref`](https://doc.rust-lang.org/std/io/struct.Error.html#method.get_ref).
     pub fn get_ref(&self) -> Option<&('static + Error + Send + Sync)> {
         match self.0 {
             IoErrorRepr::Custom(_, ref inner) => Some(inner.as_ref()),
@@ -113,7 +113,7 @@ impl IoError {
     }
 
     /// See
-    /// [`std::io::Error::into_inner`](https://doc.rust-lang.org/std/io/struct.Error.html#method.into_inner).
+    /// [`io::Error::into_inner`](https://doc.rust-lang.org/std/io/struct.Error.html#method.into_inner).
     pub fn into_inner(self) -> Option<Arc<Error + Send + Sync>> {
         match self.0 {
             IoErrorRepr::Custom(_, inner) => Some(inner),
@@ -122,7 +122,11 @@ impl IoError {
     }
 
     /// See
-    /// [`std::io::Error::kind`](https://doc.rust-lang.org/std/io/struct.Error.html#method.kind).
+    /// [`io::Error::kind`](https://doc.rust-lang.org/std/io/struct.Error.html#method.kind)
+    /// with
+    /// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
+    /// substitued for
+    /// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
     pub fn kind(&self) -> IoErrorKind {
         match self.0 {
             IoErrorRepr::Os(code) => io::Error::from_raw_os_error(code).kind(),
