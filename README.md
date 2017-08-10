@@ -8,8 +8,8 @@ implemented on top of
 of [`std::boxed::Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html),
 making it cloneable.
 
-[![Build Status](https://travis-ci.org/spinda/arc-io-error.svg?branch=master)](https://travis-ci.org/spinda/arc-io-error)
-[![Build status](https://ci.appveyor.com/api/projects/status/TODO?svg=true)](https://ci.appveyor.com/project/spinda/arc-io-error)
+[![Linux/OSX Build Status](https://img.shields.io/travis/spinda/arc-io-error/master.svg)](https://travis-ci.org/spinda/arc-io-error)
+[![Windows Build Status](https://img.shields.io/appveyor/ci/spinda/arc-io-error/master.svg)](https://ci.appveyor.com/project/spinda/arc-io-error)
 [![Crates.io](https://img.shields.io/crates/v/arc-io-error.svg?maxAge=2592000)](https://crates.io/crates/arc-io-error)
 
 [Documentation](https://docs.rs/arc-io-error/0.1.0)
