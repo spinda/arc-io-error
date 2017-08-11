@@ -5,7 +5,7 @@
 //! It is not a new type, despite how it may appear in Rustdoc.
 
 #![deny(missing_docs, missing_debug_implementations)]
-#![doc(html_root_url = "https://docs.rs/arc-io-error/0.1.0")]
+#![doc(html_root_url = "https://docs.rs/arc-io-error/0.1.1")]
 
 use std::error::Error;
 use std::fmt;

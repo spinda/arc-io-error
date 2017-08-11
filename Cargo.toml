@@ -1,13 +1,13 @@
 [package]
 name = "arc-io-error"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Michael Smith <michael@spinda.net>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
 keywords = ["io", "error", "arc", "clone"]
 repository = "https://github.com/spinda/arc-io-error"
 homepage = "https://github.com/spinda/arc-io-error"
-documentation = "https://docs.rs/arc-io-error/0.1.0"
+documentation = "https://docs.rs/arc-io-error/0.1.1"
 description = """
 A version of std::io::Error implemented on top of Arc instead of Box, making it
 cloneable.
