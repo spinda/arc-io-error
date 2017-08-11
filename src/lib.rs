@@ -74,7 +74,7 @@ impl IoError {
     /// [`io::Error::new`](https://doc.rust-lang.org/std/io/struct.Error.html#method.new),
     /// with
     /// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
-    /// substitued for
+    /// substituted for
     /// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
     pub fn new<E>(kind: IoErrorKind, error: E) -> Self
         where E: Into<Arc<Error + Send + Sync>>
@@ -113,7 +113,11 @@ impl IoError {
     }
 
     /// See
-    /// [`io::Error::into_inner`](https://doc.rust-lang.org/std/io/struct.Error.html#method.into_inner).
+    /// [`io::Error::into_inner`](https://doc.rust-lang.org/std/io/struct.Error.html#method.into_inner),
+    /// with
+    /// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
+    /// substituted for
+    /// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
     pub fn into_inner(self) -> Option<Arc<Error + Send + Sync>> {
         match self.0 {
             IoErrorRepr::Custom(_, inner) => Some(inner),
@@ -122,11 +126,7 @@ impl IoError {
     }
 
     /// See
-    /// [`io::Error::kind`](https://doc.rust-lang.org/std/io/struct.Error.html#method.kind)
-    /// with
-    /// [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
-    /// substitued for
-    /// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
+    /// [`io::Error::kind`](https://doc.rust-lang.org/std/io/struct.Error.html#method.kind).
     pub fn kind(&self) -> IoErrorKind {
         match self.0 {
             IoErrorRepr::Os(code) => io::Error::from_raw_os_error(code).kind(),
