@@ -9,9 +9,9 @@ implemented on top of
 of [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html),
 making it cloneable.
 
+[![Crates.io](https://img.shields.io/crates/v/arc-io-error.svg)](https://crates.io/crates/arc-io-error)
 [![Linux/OSX Build Status](https://img.shields.io/travis/spinda/arc-io-error/master.svg)](https://travis-ci.org/spinda/arc-io-error)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/spinda/arc-io-error/master.svg)](https://ci.appveyor.com/project/spinda/arc-io-error)
-[![Crates.io](https://img.shields.io/crates/v/arc-io-error.svg?maxAge=2592000)](https://crates.io/crates/arc-io-error)
 
 [Documentation](https://docs.rs/arc-io-error/0.1.0)
 
