@@ -1,4 +1,8 @@
 //! See the type-level documentation for [`IoError`](struct.IoError.html).
+//!
+//! **Note:** [`IoErrorKind`](type.IoResult.html) is a re-export of (alias for)
+//! [`std::io::ErrorKind`](https://doc.rust-lang.org/std/io/struct.ErrorKind.html).
+//! It is not a new type, despite how it may appear in Rustdoc.
 
 #![deny(missing_docs, missing_debug_implementations)]
 #![doc(html_root_url = "https://docs.rs/arc-io-error/0.1.0")]
@@ -59,7 +63,9 @@ pub struct IoError(IoErrorRepr);
 /// See [`std::io::ErrorKind`](https://doc.rust-lang.org/std/io/enum.ErrorKind.html).
 pub use io::ErrorKind as IoErrorKind;
 
-/// See [`std::io::Result`](https://doc.rust-lang.org/std/io/type.Result.html).
+/// See [`std::io::Result`](https://doc.rust-lang.org/std/io/type.Result.html),
+/// with [`IoError`](struct.IoError.html) substituted for
+/// [`io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html).
 pub type IoResult<T> = Result<T, IoError>;
 
 #[derive(Clone)]
