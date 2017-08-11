@@ -194,6 +194,16 @@ impl fmt::Display for IoError {
 impl Error for IoError {
     fn description(&self) -> &str {
         match self.0 {
+            // Here we need to access io::ErrorKind::as_str
+            // (https://github.com/rust-lang/rust/blob/13d94d5fa8129a34f5c77a1bcd76983f5aed2434/src/libstd/io/error.rs#L182)
+            // which produces a &'static str, but it's private.
+            //
+            // io::Error::description returns the result of a call to this
+            // function intact in the case of an OS or kind-only error
+            // (https://github.com/rust-lang/rust/blob/13d94d5fa8129a34f5c77a1bcd76983f5aed2434/src/libstd/io/error.rs#L534)
+            // but with an insufficient lifetime (matching the signature of
+            // trait Error::description). So we hack around this with an unsafe
+            // transmute (gulp).
             IoErrorRepr::Os(code) => {
                 unsafe { mem::transmute(io::Error::from_raw_os_error(code).description()) }
             }
