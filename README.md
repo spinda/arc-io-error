@@ -1,13 +1,13 @@
 # arc-io-error
 
-This library provides the
-[`IoError`](https://docs.rs/arc-io-error/0.1.1/arc_io_error/struct.IoError.html)
-type, a version of
-[`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
-implemented on top of
-[`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) instead
-of [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html),
-making it cloneable.
+> This library provides the
+> [`IoError`](https://docs.rs/arc-io-error/0.1.1/arc_io_error/struct.IoError.html)
+> type, a version of
+> [`std::io::Error`](https://doc.rust-lang.org/std/io/struct.Error.html)
+> implemented on top of
+> [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) instead
+> of [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html),
+> making it cloneable.
 
 [![Crates.io](https://img.shields.io/crates/v/arc-io-error.svg)](https://crates.io/crates/arc-io-error)
 [![Linux/OSX Build Status](https://img.shields.io/travis/spinda/arc-io-error/master.svg)](https://travis-ci.org/spinda/arc-io-error)
