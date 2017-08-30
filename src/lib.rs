@@ -4,7 +4,10 @@
 //! [`std::io::ErrorKind`](https://doc.rust-lang.org/std/io/struct.ErrorKind.html).
 //! It is not a new type, despite how it may appear in Rustdoc.
 
-#![deny(missing_docs, missing_debug_implementations)]
+#![cfg_attr(feature = "strict", deny(warnings))]
+#![cfg_attr(feature = "strict", deny(missing_docs, missing_debug_implementations))]
+#![cfg_attr(feature = "clippy", feature(plugin))]
+#![cfg_attr(feature = "clippy", plugin(clippy))]
 #![doc(html_root_url = "https://docs.rs/arc-io-error/0.1.1")]
 
 use std::error::Error;
@@ -83,7 +86,8 @@ impl IoError {
     /// substituted for
     /// [`Box`](https://doc.rust-lang.org/std/boxed/struct.Box.html).
     pub fn new<E>(kind: IoErrorKind, error: E) -> Self
-        where E: Into<Arc<Error + Send + Sync>>
+    where
+        E: Into<Arc<Error + Send + Sync>>,
     {
         IoError(IoErrorRepr::Custom(kind, error.into()))
     }
@@ -136,8 +140,7 @@ impl IoError {
     pub fn kind(&self) -> IoErrorKind {
         match self.0 {
             IoErrorRepr::Os(code) => io::Error::from_raw_os_error(code).kind(),
-            IoErrorRepr::Kind(kind) => kind,
-            IoErrorRepr::Custom(kind, _) => kind,
+            IoErrorRepr::Kind(kind) | IoErrorRepr::Custom(kind, _) => kind,
         }
     }
 }
@@ -210,12 +213,12 @@ impl Error for IoError {
             // but with an insufficient lifetime (matching the signature of
             // trait Error::description). So we hack around this with an unsafe
             // transmute (gulp).
-            IoErrorRepr::Os(code) => {
-                unsafe { mem::transmute(io::Error::from_raw_os_error(code).description()) }
-            }
-            IoErrorRepr::Kind(kind) => {
-                unsafe { mem::transmute(io::Error::from(kind).description()) }
-            }
+            IoErrorRepr::Os(code) => unsafe {
+                mem::transmute(io::Error::from_raw_os_error(code).description())
+            },
+            IoErrorRepr::Kind(kind) => unsafe {
+                mem::transmute(io::Error::from(kind).description())
+            },
             IoErrorRepr::Custom(_, ref inner) => inner.description(),
         }
     }

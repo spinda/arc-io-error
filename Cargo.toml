@@ -17,3 +17,11 @@ categories = ["rust-patterns"]
 [badges]
 travis-ci = { repository = "spinda/arc-io-error" }
 appveyor = { repository = "spinda/arc-io-error" }
+
+[dependencies.clippy]
+version = "*"
+optional = true
+
+[features]
+default = []
+strict = ["clippy"]
